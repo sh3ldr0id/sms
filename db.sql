@@ -30,7 +30,7 @@ CREATE TABLE Products (
 CREATE TABLE Billing (
     id INT PRIMARY KEY AUTO_INCREMENT,
     customerId INT,
-    products JSON NOT NULL,
+    products VARCHAR(1024) NOT NULL,
     discount FLOAT NOT NULL DEFAULT 0,
     method VARCHAR(50) NOT NULL,
     cashier VARCHAR(100) NOT NULL,

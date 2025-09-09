@@ -61,8 +61,5 @@ def loginWithEmail(email, password):
         (email, password)
     )
     loggedIn = cursor.fetchone()
-
-    if loggedIn:
-        return True
     
-    return False
+    return loggedIn

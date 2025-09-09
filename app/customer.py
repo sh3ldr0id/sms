@@ -8,6 +8,8 @@ def createCustomer(first_name, last_name, phone):
 
     connection.commit()
 
+    return cursor.lastrowid
+
 def updateCustomer(uid, first_name=None, last_name=None, phone=None):
     fields = []
     values = []
