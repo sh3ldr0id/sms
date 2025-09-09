@@ -1,62 +1,92 @@
-"# sms" 
+# SMS - Shop Management System
 
----
+Lightweight POS / shop management system built in Python + MySQL. Provides customer, employee, product and billing management with simple CLI/printable bill output.
 
-## 🔹 MVP Features (Core)
+## Features
+- Customer management (create, view, delete)
+- Employee management and email/password login
+- Product management (stock, price, cost)
+- Create bills: calculates totals, applies discount, updates product stock
+- View and delete bills
+- Printable text bill layout
 
-1. **Customer & Sales Management**
+## Requirements
+- Windows 10/11
+- Python 3.10+ (recommended)
+- MySQL server
+- Virtual environment (recommended)
+- Python packages (see requirements.txt)
+  - mysql-connector-python
 
-   * Add/Edit customers (name, contact)
-   * Record sales (basic POS: product, quantity, price, discount, total)
-   * Auto-generate invoices (printable PDF/receipt)
+## Quick setup (Windows)
 
-2. **Inventory / Stock Management**
+1. Clone repo and change into project folder
+   ```
+   cd "c:\Users\sh3ld\Dev\Gen7\SMS - Shop Management System"
+   ```
 
-   * Add/Edit products (name, SKU, category, price, stock count)
-   * Update stock automatically when a sale is made
-   * Low-stock alerts (simple threshold notification)
+2. Create and activate a venv, then install deps
+   ```
+   python -m venv venv
+   venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
 
-3. **Billing & Payment Tracking**
+3. Create the database and seed sample data
+   - Using MySQL client:
+     ```
+     mysql -u root -p < db.sql
+     ```
+   - Or open `db.sql` in MySQL Workbench and run it.
 
-   * Bill generation (with tax, discounts, total)
-   * Payment status (paid / pending / partial)
-   * Simple daily/weekly sales reports
+4. Configure database credentials
+   - Edit `app/__init__.py` and set your MySQL connection details (host, user, password, database).
+   - Example connection snippet to place in `app/__init__.py` (edit credentials before use):
+     ```python
+     # filepath: c:\Users\sh3ld\Dev\Gen7\SMS - Shop Management System\app\__init__.py
+     import mysql.connector
+     connection = mysql.connector.connect(
+         host="127.0.0.1",
+         user="your_mysql_user",
+         password="your_mysql_password",
+         database="smsdb",
+         autocommit=False
+     )
+     cursor = connection.cursor()
+     def start():
+         # existing start() entrypoint in the package
+         ...
+     ```
+   - If the package already creates connection here, update the credentials only.
 
-4. **Employee Management (Basic)**
+5. Run the app
+   ```
+   python run.py
+   ```
 
-   * Employee profiles (name, role, contact)
-   * Attendance check-in/check-out (manual entry at MVP stage)
-   * Sales assigned to employees (optional, if shop requires commission tracking)
+## Notes
+- Default admin (from db.sql): email `sh3ldr0id@gmail.com`, password `password`. Change password after first login.
+- Discounts in billing are treated as percentage values (e.g. `10` => 10%). The code expects `discount` as a percent when computing totals (it divides by 100).
+- The printable bill is plain-text and aligned to a fixed-width layout. If product names are longer than the column width they will be truncated.
+- If you see ImportError due to circular imports (app imports employee which imports app), ensure `connection`/`cursor` are created in `app.__init__.py` (or in a dedicated module like `app/db.py`) and imported as `from app import connection, cursor` or `from app.db import connection, cursor` consistently.
 
-5. **Basic Analytics / Reports**
+## Common troubleshooting
+- "Not all parameters were used in the SQL statement" — ensure SQL placeholders match the connector style (%s for mysql-connector-python).
+- Already tracked __pycache__ files: add `__pycache__/` and `*.pyc` to `.gitignore`, then run:
+  ```
+  git rm -r --cached .
+  git add .
+  git commit -m "Ignore __pycache__ and bytecode"
+  ```
+- If using multiple threads, avoid sharing the same DB connection across threads without proper locking.
 
-   * Daily sales summary
-   * Top-selling products
-   * Outstanding payments (customers who owe money)
+## File layout (important files)
+- run.py — app entrypoint
+- db.sql — schema + seed data
+- app/__init__.py — package init + DB connection / start() entry
+- app/billing.py — billing and printable bill logic
+- app/logistics.py — product helpers (price, stock)
+- app/employee.py — employees, auth helpers
+- requirements.txt — Python dependencies
 
----
-
-## 🔹 Future Add-ons (after MVP)
-
-* **Logistics Module**: Delivery tracking, shipping status, courier integration.
-* **Advanced Employee Management**: Payroll, shifts, performance tracking.
-* **CRM (Customer Relationship Management)**: Loyalty points, discounts, promotions.
-* **Suppliers & Purchase Orders**: Automate restocking from suppliers.
-* **Multi-Store Support**: If shops have branches.
-* **AI Insights**: Predict best-selling products, stock forecasting.
-
----
-
-## 🔹 Tech MVP Flow Example
-
-1. Shopkeeper logs in
-2. Adds products and employees
-3. Customer comes in → sale recorded → stock auto-updated → invoice generated
-4. End of day → shopkeeper checks sales & low stock report
-
----
-
-👉 For a true MVP, I’d suggest **start with just 3 modules**:
-**Inventory + Sales + Billing**. That’s the minimum viable loop. Customers, employees, and logistics can be added iteratively.
-
-Would you like me to design this MVP plan for **a small shop (like a grocery, pharmacy)** or for a **larger retail store with employees and logistics**?
+If you want, I can generate a sample `app/db.py` module to break circular imports and show the recommended connection
