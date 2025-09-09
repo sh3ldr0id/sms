@@ -88,5 +88,3 @@ Lightweight POS / shop management system built in Python + MySQL. Provides custo
 - app/logistics.py — product helpers (price, stock)
 - app/employee.py — employees, auth helpers
 - requirements.txt — Python dependencies
-
-If you want, I can generate a sample `app/db.py` module to break circular imports and show the recommended connection
