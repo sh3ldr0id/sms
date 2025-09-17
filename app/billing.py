@@ -5,14 +5,6 @@ from datetime import datetime
 from json import dumps, loads
 
 def calculateTotal(products):
-    total = 0
-
-    for product in products.values():
-        total += product["price"]
-
-    return total
-
-def createBill(customerId, products, discount, method, cashier):
     subtotal = 0
 
     for productId, details in products.items():
@@ -20,7 +12,25 @@ def createBill(customerId, products, discount, method, cashier):
         details["total"] = float(details["price"] * details["quantity"])
         subtotal += details["total"]
 
-    total = subtotal - (subtotal * (discount / 100))
+    return subtotal
+
+def createBill(customerId, products, points, method, cashier):
+    subtotal = 0
+
+    for productId, details in products.items():
+        details["price"] = float(fetchPrice(productId))
+        details["total"] = float(details["price"] * details["quantity"])
+        subtotal += details["total"]
+
+    total = subtotal - points
+    discount = (points / subtotal) * 100 if subtotal else 0
+
+    cursor.execute(
+        "UPDATE Customers SET points = points - %s + %s WHERE id = %s",
+        (points, int(total // 10), customerId)
+    )
+
+    connection.commit()
 
     cursor.execute(
         """
@@ -65,6 +75,7 @@ def createBill(customerId, products, discount, method, cashier):
         " ▄▄▄ ▄▄▄▄   ▄▄▄ ",
         "▀▄▄  █ █ █ ▀▄▄  ",
         "▄▄▄▀ █   █ ▄▄▄▀ ",
+        "",
         "-" * 52,
         f"Bill ID: {bill_id}",
         f"Date: {bill_date}",

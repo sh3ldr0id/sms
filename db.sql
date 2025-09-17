@@ -16,7 +16,7 @@ CREATE TABLE Employees (
     email VARCHAR(100) UNIQUE NOT NULL,
     phone VARCHAR(10) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    rating FLOAT NOT NULL DEFAULT 0
+    -- rating FLOAT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Products (

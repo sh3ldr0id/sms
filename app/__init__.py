@@ -343,7 +343,7 @@ def start():
                         quantity = int(input("Quantity: "))
 
                         if product[2] < quantity:
-                            print("Insufficient stock! Available stock:", product["stock"])
+                            print("Insufficient stock! Available stock:", product[2])
                             continue
 
                         products[productId] = {
@@ -351,13 +351,14 @@ def start():
                         }
 
                         print(product[1], f"x{quantity}", "added to bill.")
-                    
-                    discount = input("Discount (%): ")
-                    discount = float(discount) if discount else 0.0
+
+                    subtotal = calculateTotal(products)
+                    print(f"Total: ${subtotal:.2f}")
+
                     method = input("Payment Method (Cash/UPI/Card): ").lower()
                     method = "Cash" if method not in ['cash', 'upi', 'card'] else method.capitalize()
 
-                    phone = None
+                    phone = input("Customer's phone: ")
 
                     while not phone:
                         print("Please enter a valid customer phone number.")
@@ -391,7 +392,31 @@ def start():
                         customerId = customers[0][0]
                         print("Customer found:", customers[0][1], customers[0][2])
 
-                    bill = createBill(customerId, products, discount, method, user[0])
+                    # Retrive available points from user
+                    cursor.execute("SELECT points FROM Customers WHERE id = %s", (customerId,))
+                
+                    available_points = cursor.fetchone()[0]
+
+                    print(f"Customer has {available_points} points available.")
+
+                    points_to_redeem = None
+
+                    while not points_to_redeem:
+                        points_to_redeem = input("Points to redeem (Leave empty for 0): ")
+                        points_to_redeem = int(points_to_redeem) if points_to_redeem.isdigit() else 0
+
+                        if points_to_redeem > available_points:
+                            print("Insufficient points! Please enter a valid amount.")
+                            points_to_redeem = None
+
+                        elif points_to_redeem > subtotal:
+                            print("Points exceed bill total! Please enter a valid amount less than or equal to subtotal.")
+                            points_to_redeem = None
+
+                        else:
+                            break
+                        
+                    bill = createBill(customerId, products, points_to_redeem, method, user[0])
 
                     print(bill)
 
