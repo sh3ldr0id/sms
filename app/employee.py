@@ -8,7 +8,7 @@ def createEmployee(first_name, last_name, email, phone, password):
 
     connection.commit()
 
-def updateEmployee(uid, first_name=None, last_name=None, email=None, phone=None, password=None, rating=None):
+def updateEmployee(uid, first_name=None, last_name=None, email=None, phone=None, password=None):
     fields = []
     values = []
 
@@ -27,9 +27,6 @@ def updateEmployee(uid, first_name=None, last_name=None, email=None, phone=None,
     if password is not None:
         fields.append("password = %s")
         values.append(password)
-    if rating is not None:
-        fields.append("rating = %s")
-        values.append(rating)
 
     if fields:
         query = f"UPDATE Employees SET {', '.join(fields)} WHERE id = %s"

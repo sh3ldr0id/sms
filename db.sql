@@ -15,14 +15,13 @@ CREATE TABLE Employees (
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     phone VARCHAR(10) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    -- rating FLOAT NOT NULL DEFAULT 0
+    password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Products (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    stock INT DEFAULT 0,
+    stock INT DEFAULT 0 NOT NULL,
     cost DECIMAL(10,2) NOT NULL,
     price DECIMAL(10,2) NOT NULL
 );
@@ -30,7 +29,7 @@ CREATE TABLE Products (
 CREATE TABLE Billing (
     id INT PRIMARY KEY AUTO_INCREMENT,
     customerId INT,
-    products VARCHAR(1024) NOT NULL,
+    products VARCHAR(8192) NOT NULL,
     discount FLOAT NOT NULL DEFAULT 0,
     method VARCHAR(50) NOT NULL,
     cashier VARCHAR(100) NOT NULL,
@@ -39,32 +38,36 @@ CREATE TABLE Billing (
 );
 
 -- first employee (admin)
-INSERT INTO Employees (first_name, last_name, email, phone, password, rating) VALUES
-('Sheldon', 'Sinu', 'sh3ldr0id@gmail.com', '9207543203', 'password', 5.0);
+INSERT INTO Employees (first_name, last_name, email, phone, password) VALUES
+('John', 'Doe', 'john@test.com', '1234567890', 'password');
 
 -- sample customers
 INSERT INTO Customers (first_name, last_name, phone, points) VALUES
-('Sonu', 'Philip', '9207543209', 0),
 ('Alice', 'Johnson', '9207543210', 10),
 ('Bob', 'Smith', '9207543211', 20),
-('Charlie', 'Brown', '9207543212', 15);
+('Charlie', 'Brown', '9207543212', 15),
+('Diana', 'Prince', '9207543213', 25),
+('Ethan', 'Hunt', '9207543214', 30);
 
+-- sample products
 INSERT INTO Products (name, stock, cost, price) VALUES
-('Apple', 100, 0.30, 0.50),
-('Banana', 150, 0.20, 0.40),
-('Orange', 120, 0.25, 0.45),
-('Milk', 80, 1.00, 1.50),
-('Bread', 60, 1.20, 1.80),
-('Eggs (dozen)', 50, 1.50, 2.00),
-('Rice (1kg)', 70, 2.00, 3.00),
-('Chicken (1kg)', 40, 5.00, 7.00),
-('Fish (1kg)', 30, 6.00, 8.00),
-('Vegetable Mix (500g)', 90, 2.50, 4.00);
-
-
-
-
-
-
-(1, 'Sheldon', 'Sinu', 'sh3ldr0id@gmail.com', '9207543203', 'password', 5.0)
-(2, 'Sonu', 'Philip', 'sonup@gmail.com', '9207543209', 'wordpass', 0.0)
+('Apple', 100, 30.00, 50.00),
+('Banana', 150, 20.00, 40.00),
+('Orange', 120, 25.00, 45.00),
+('Milk', 80, 100.00, 150.00),
+('Bread', 60, 120.00, 180.00),
+('Eggs (dozen)', 50, 150.00, 200.00),
+('Rice (1kg)', 70, 200.00, 300.00),
+('Chicken (1kg)', 40, 500.00, 700.00),
+('Fish (1kg)', 30, 600.00, 800.00),
+('Vegetable Mix (500g)', 90, 250.00, 400.00),
+('Yogurt (500g)', 75, 180.00, 250.00),
+('Cheese (200g)', 65, 220.00, 300.00),
+('Butter (200g)', 55, 170.00, 230.00),
+('Cereal (500g)', 85, 300.00, 450.00),
+('Juice (1L)', 95, 150.00, 220.00),
+('Coffee (250g)', 45, 400.00, 550.00),
+('Tea (100g)', 35, 250.00, 350.00),
+('Sugar (1kg)', 100, 100.00, 150.00),
+('Salt (500g)', 110, 80.00, 120.00),
+('Flour (1kg)', 120, 120.00, 180.00);
