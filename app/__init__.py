@@ -117,7 +117,6 @@ def start():
                     print("\n" + "=" * 60)
                     print(" " * 15 + "✏️  Update Employee")
                     print("=" * 60)
-                    print("ℹ️  Leave empty to keep current value.\n")
 
                     employeeId = input("🆔  Employee ID: ")
 
@@ -201,7 +200,6 @@ def start():
                     print("\n" + "=" * 60)
                     print(" " * 15 + "✏️  Update Customer")
                     print("=" * 60)
-                    print("ℹ️  Leave empty to keep current value.\n")
 
                     customerId = input("🆔  Customer ID: ")
 
@@ -282,7 +280,6 @@ def start():
                     print("\n" + "=" * 60)
                     print(" " * 15 + "✏️  Update Product")
                     print("=" * 60)
-                    print("ℹ️  Leave empty to keep current value.\n")
 
                     productId = input("🆔  Product ID: ")
 

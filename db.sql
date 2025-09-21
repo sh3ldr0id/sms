@@ -43,11 +43,9 @@ INSERT INTO Employees (first_name, last_name, email, phone, password) VALUES
 
 -- sample customers
 INSERT INTO Customers (first_name, last_name, phone, points) VALUES
-('Alice', 'Johnson', '9207543210', 10),
-('Bob', 'Smith', '9207543211', 20),
-('Charlie', 'Brown', '9207543212', 15),
-('Diana', 'Prince', '9207543213', 25),
-('Ethan', 'Hunt', '9207543214', 30);
+('Alice', 'Johnson', '123456785', 10),
+('Bob', 'Smith', '123456786', 20),
+('Charlie', 'Brown', '123456785', 15);
 
 -- sample products
 INSERT INTO Products (name, stock, cost, price) VALUES

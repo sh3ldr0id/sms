@@ -65,7 +65,7 @@ Lightweight POS / shop management system built in Python + MySQL. Provides custo
    ```
 
 ## Notes
-- Default admin (from db.sql): email `sh3ldr0id@gmail.com`, password `password`. Change password after first login.
+- Default admin (from db.sql): email `john@test.com`, password `password`. Change password after first login.
 - Discounts in billing are treated as percentage values (e.g. `10` => 10%). The code expects `discount` as a percent when computing totals (it divides by 100).
 - The printable bill is plain-text and aligned to a fixed-width layout. If product names are longer than the column width they will be truncated.
 - If you see ImportError due to circular imports (app imports employee which imports app), ensure `connection`/`cursor` are created in `app.__init__.py` (or in a dedicated module like `app/db.py`) and imported as `from app import connection, cursor` or `from app.db import connection, cursor` consistently.
